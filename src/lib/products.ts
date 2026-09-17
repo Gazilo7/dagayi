@@ -2,6 +2,7 @@ export const products = [
   {
     name: "Daga'yi Essential Tee",
     slug: "dagayi-essential-tee",
+    category: "T-Shirts",
     price: "₦35,000",
     sizes: ["S","M","L","XL"],
     description:
@@ -12,6 +13,7 @@ export const products = [
   {
     name: "Structured Black Jacket",
     slug: "structured-black-jacket",
+    category: "Jackets",
     price: "₦85,000",
     sizes: ["S","M","L","XL"],
     description:
@@ -22,6 +24,7 @@ export const products = [
   {
     name: "Relaxed Fit Shirt",
     slug: "relaxed-fit-shirt",
+    category: "Shirts",
     price: "₦48,000",
     sizes: ["S","M","L","XL"],
     description:
@@ -32,6 +35,7 @@ export const products = [
   {
     name: "Signature Trousers",
     slug: "signature-trousers",
+    category: "Trousers",
     sizes: ["S","M","L","XL"],
     price: "₦55,000",
     description:

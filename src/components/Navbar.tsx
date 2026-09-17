@@ -1,4 +1,11 @@
+"use client";
+
+import { useState } from "react";
+import SearchOverlay from "@/components/SearchOverlay";
+
 export default function Navbar() {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <header className="site-header">
       <div className="header-left">
@@ -13,24 +20,32 @@ export default function Navbar() {
         </nav>
       </div>
 
-     
       <div className="header-right">
-         <a href="/" className="logo">
-      Daga'yi 
-      </a>
+        <a href="/" className="logo">
+          Daga'yi
+        </a>
 
-        <button aria-label="Search">⌕</button>
+        <button
+          aria-label="Search"
+          onClick={() => setSearchOpen(true)}
+        >
+          ⌕
+        </button>
+
         <button aria-label="Account">♙</button>
 
-        <a href="/wishlist" 
-        aria-label="Wishlist">
-            ♡
-          </a>
-        <a href="/cart" aria-label="Shopping 
-        bag">
+        <a href="/wishlist" aria-label="Wishlist">
+          ♡
+        </a>
+
+        <a href="/cart" aria-label="Shopping bag">
           ▢
         </a>
       </div>
+
+      {searchOpen && (
+        <SearchOverlay onClose={() => setSearchOpen(false)} />
+      )}
     </header>
   );
 }

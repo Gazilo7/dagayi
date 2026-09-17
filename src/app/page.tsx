@@ -5,7 +5,7 @@ import { products } from "@/lib/products";
 export default function Home() {
   return (
     <main>
-      <Navbar />
+      <Navbar/>
 
       {/* HERO */}
       <section className="hero">

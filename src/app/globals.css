@@ -674,3 +674,164 @@ footer {
   text-decoration: none;
   margin-right: 20px;
 }
+
+.search-page {
+  min-height: 100vh;
+  padding: 120px 5% 80px;
+}
+
+.search-page h1 {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.search-page input {
+  width: 100%;
+  max-width: 600px;
+  padding: 15px 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--black);
+  font-size: 16px;
+  outline: none;
+}
+
+.search-page input::placeholder {
+  color: var(--gray);
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1000px;
+  margin-top: 50px;
+}
+
+.search-result {
+  color: var(--black);
+  text-decoration: none;
+}
+
+.search-result img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+}
+
+.search-result h2 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.search-result p {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.category-filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.category-filters button {
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--black);
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.category-filters button:hover,
+.category-filters button.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.search-overlay {
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  width: 420px;
+  background: var(--white);
+  z-index: 1000;
+  padding: 28px 30px 32px;
+  border: 1px solid var(--border);
+  box-sizing: border-box;
+}
+
+.search-overlay-top {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.search-overlay-top input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-bottom: 1px solid var(--black);
+  background: transparent;
+  padding: 8px 0 10px;
+  color: var(--black);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-overlay-top input::placeholder {
+  color: var(--gray);
+}
+
+.search-overlay-top button {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 0 0 10px;
+  color: var(--black);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+}
+
+.search-overlay-top button:hover {
+  text-decoration: underline;
+}
+
+.search-overlay-results {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.search-overlay-results a {
+  color: var(--black);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.search-overlay-results a:hover {
+  text-decoration: underline;
+}
+
+.search-overlay-view-all {
+  display: inline-block;
+  margin-top: 25px;
+  color: var(--black);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.search-overlay-view-all:hover {
+  text-decoration: underline;
+}
