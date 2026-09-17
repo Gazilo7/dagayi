@@ -13,11 +13,12 @@ export default function Navbar() {
         </nav>
       </div>
 
-      <a href="/" className="logo">
-        <img src="/images/logo.jpg" alt="Daga'yi" />
+     
+      <div className="header-right">
+         <a href="/" className="logo">
+      Daga'yi 
       </a>
 
-      <div className="header-right">
         <button aria-label="Search">⌕</button>
         <button aria-label="Account">♙</button>
 
