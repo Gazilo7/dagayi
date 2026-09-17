@@ -20,7 +20,15 @@ export default function Navbar() {
       <div className="header-right">
         <button aria-label="Search">⌕</button>
         <button aria-label="Account">♙</button>
-        <button aria-label="Shopping bag">▢</button>
+
+        <a href="/wishlist" 
+        aria-label="Wishlist">
+            ♡
+          </a>
+        <a href="/cart" aria-label="Shopping 
+        bag">
+          ▢
+        </a>
       </div>
     </header>
   );

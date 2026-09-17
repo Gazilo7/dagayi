@@ -1,5 +1,5 @@
 import { products } from "@/lib/products";
-
+import { ProductActions } from "@/components/ProductActions";
 
 type ProductPageProps = {
   params: Promise<{
@@ -33,19 +33,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {product.description}
       </p>
 
-      <div className="size-selector">
-        <p>SELECT SIZE</p>
-
-      <div className="size-options">
-        {product.sizes.map((size) =>(
-          <button key={size}>{size}</button>
-        ))}
-      </div>
-      </div>
-
-      <button className="add-to-cart">
-        ADD TO CART
-      </button>
+      <ProductActions 
+      sizes={product.sizes}
+      product={product} 
+      />
     </div>
   </main>
 );
