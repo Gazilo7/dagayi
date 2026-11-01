@@ -61,14 +61,34 @@ export function CartProvider({
   }, [cartItems, isLoaded]);
 
   function addToCart(item: CartItem) {
-    setCartItems((currentItems) => [
+  setCartItems((currentItems) => {
+    const existingItem = currentItems.find(
+      (cartItem) =>
+        cartItem.slug === item.slug &&
+        cartItem.size === item.size
+    );
+
+    if (existingItem) {
+      return currentItems.map((cartItem) =>
+        cartItem.slug === item.slug &&
+        cartItem.size === item.size
+          ? {
+              ...cartItem,
+              quantity: cartItem.quantity + 1,
+            }
+          : cartItem
+      );
+    }
+
+    return [
       ...currentItems,
       {
         ...item,
         quantity: 1,
       },
-    ]);
-  }
+    ];
+  });
+}
 
   function removeFromCart(index: number) {
     setCartItems((currentItems) =>

@@ -1,10 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import SearchOverlay from "@/components/SearchOverlay";
+import { createClient } from "@/lib/supabase/client";
 
 export default function Navbar() {
+  const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data }) => {
+      setIsLoggedIn(!!data.user);
+      setAuthChecked(true);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+      setAuthChecked(true);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <header className="site-header">
@@ -32,7 +57,14 @@ export default function Navbar() {
           ⌕
         </button>
 
-        <button aria-label="Account">♙</button>
+        <button
+          aria-label="Account"
+          onClick={() =>
+            router.push(isLoggedIn ? "/account" : "/login")
+          }
+        >
+          ♙
+        </button>
 
         <a href="/wishlist" aria-label="Wishlist">
           ♡

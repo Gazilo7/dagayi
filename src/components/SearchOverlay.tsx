@@ -1,25 +1,56 @@
 "use client";
 
-import { useState } from "react";
-import { products } from "@/lib/products";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 type SearchOverlayProps = {
   onClose: () => void;
+};
+
+type Product = {
+  name: string;
+  slug: string;
+  category: string;
 };
 
 export default function SearchOverlay({
   onClose,
 }: SearchOverlayProps) {
   const [search, setSearch] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  const results = products.filter((product) => {
+  useEffect(() => {
+    async function fetchProducts() {
+      const supabase = createClient();
+
+      const { data, error } = await supabase
+        .from("products")
+        .select("name, slug, category")
+        .eq("is_active", true);
+
+      if (error) {
+        console.error("Search overlay error:", error);
+        setError(true);
+      } else {
+        setProducts(data ?? []);
+      }
+
+      setLoading(false);
+    }
+
+    fetchProducts();
+  }, []);
+
   const searchTerm = search.toLowerCase();
 
-  return (
-    product.name.toLowerCase().includes(searchTerm) ||
-    product.category.toLowerCase().includes(searchTerm)
-  );
-});
+  const results = products.filter((product) => {
+    return (
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm)
+    );
+  });
 
   return (
     <div className="search-overlay">
@@ -38,30 +69,36 @@ export default function SearchOverlay({
       </div>
 
       {search && (
-  <>
-    <div className="search-overlay-results">
-      {results.length === 0 ? (
-        <p>No products found.</p>
-      ) : (
-        results.map((product) => (
-          <a
-            href={`/products/${product.slug}`}
-            key={product.slug}
-          >
-            {product.name}
-          </a>
-        ))
-      )}
-    </div>
+        <>
+          <div className="search-overlay-results">
+            {loading ? (
+              <p>Loading products...</p>
+            ) : error ? (
+              <p>Unable to load products.</p>
+            ) : results.length === 0 ? (
+              <p>No products found.</p>
+            ) : (
+              results.map((product) => (
+                <a
+                  href={`/products/${product.slug}`}
+                  key={product.slug}
+                >
+                  {product.name}
+                </a>
+              ))
+            )}
+          </div>
 
-    <a
-      href={`/search?query=${encodeURIComponent(search)}`}
-      className="search-overlay-view-all"
-    >
-      VIEW ALL RESULTS
-    </a>
-  </>
-)}
+          {!loading && !error && (
+            <a
+              href={`/search?query=${encodeURIComponent(search)}`}
+              className="search-overlay-view-all"
+            >
+              VIEW ALL RESULTS
+            </a>
+          )}
+        </>
+      )}
     </div>
   );
 }

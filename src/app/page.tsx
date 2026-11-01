@@ -1,11 +1,33 @@
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("name, slug, price, image_url")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching products:", error);
+  }
+
+  const formattedProducts = (products ?? []).map((product) => ({
+    ...product,
+    price: new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      maximumFractionDigits: 0,
+    }).format(Number(product.price)),
+    image: product.image_url ?? "",
+  }));
+
   return (
     <main>
-      <Navbar/>
+      <Navbar />
 
       {/* HERO */}
       <section className="hero">
@@ -56,14 +78,14 @@ export default function Home() {
         </div>
 
         <div className="product-grid" id="shop">
-          {products.map((product) => (
-        <ProductCard
-        key={product.name}
-        name={product.name}
-        slug={product.slug}
-        price={product.price}
-        image={product.image}
-        />
+          {formattedProducts.map((product) => (
+            <ProductCard
+              key={product.slug}
+              name={product.name}
+              slug={product.slug}
+              price={product.price}
+              image={product.image}
+            />
           ))}
         </div>
       </section>
