@@ -7,12 +7,13 @@ import {
   useState,
 } from "react";
 
-type CartItem = {
+export type CartItem = {
   name: string;
   slug: string;
   price: string;
   image: string;
   size: string;
+  variantId: string;
   quantity: number;
 };
 
@@ -21,6 +22,7 @@ type CartContextType = {
   addToCart: (item: CartItem) => void;
   removeFromCart: (index: number) => void;
   updateQuantity: (index: number, change: number) => void;
+  clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(
@@ -40,7 +42,19 @@ export function CartProvider({
 
     if (savedCart) {
       try {
-        setCartItems(JSON.parse(savedCart));
+        const parsedCart = JSON.parse(savedCart);
+
+        // Remove old cart items that don't have a variant ID.
+        if (Array.isArray(parsedCart)) {
+          setCartItems(
+            parsedCart.filter(
+              (item): item is CartItem =>
+                typeof item.variantId === "string" &&
+                typeof item.slug === "string" &&
+                typeof item.size === "string"
+            )
+          );
+        }
       } catch {
         localStorage.removeItem("dagayi-cart");
       }
@@ -50,9 +64,7 @@ export function CartProvider({
   }, []);
 
   useEffect(() => {
-    if (!isLoaded) {
-      return;
-    }
+    if (!isLoaded) return;
 
     localStorage.setItem(
       "dagayi-cart",
@@ -61,34 +73,25 @@ export function CartProvider({
   }, [cartItems, isLoaded]);
 
   function addToCart(item: CartItem) {
-  setCartItems((currentItems) => {
-    const existingItem = currentItems.find(
-      (cartItem) =>
-        cartItem.slug === item.slug &&
-        cartItem.size === item.size
-    );
-
-    if (existingItem) {
-      return currentItems.map((cartItem) =>
-        cartItem.slug === item.slug &&
-        cartItem.size === item.size
-          ? {
-              ...cartItem,
-              quantity: cartItem.quantity + 1,
-            }
-          : cartItem
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find(
+        (cartItem) => cartItem.variantId === item.variantId
       );
-    }
 
-    return [
-      ...currentItems,
-      {
-        ...item,
-        quantity: 1,
-      },
-    ];
-  });
-}
+      if (existingItem) {
+        return currentItems.map((cartItem) =>
+          cartItem.variantId === item.variantId
+            ? {
+                ...cartItem,
+                quantity: cartItem.quantity + 1,
+              }
+            : cartItem
+        );
+      }
+
+      return [...currentItems, { ...item, quantity: 1 }];
+    });
+  }
 
   function removeFromCart(index: number) {
     setCartItems((currentItems) =>
@@ -99,22 +102,19 @@ export function CartProvider({
   function updateQuantity(index: number, change: number) {
     setCartItems((currentItems) =>
       currentItems.map((item, itemIndex) => {
-        if (itemIndex !== index) {
-          return item;
-        }
+        if (itemIndex !== index) return item;
 
         const newQuantity = item.quantity + change;
 
-        if (newQuantity < 1) {
-          return item;
-        }
-
-        return {
-          ...item,
-          quantity: newQuantity,
-        };
+        return newQuantity < 1
+          ? item
+          : { ...item, quantity: newQuantity };
       })
     );
+  }
+
+  function clearCart() {
+    setCartItems([]);
   }
 
   return (
@@ -124,6 +124,7 @@ export function CartProvider({
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
       }}
     >
       {children}

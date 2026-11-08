@@ -4,6 +4,8 @@ import { useCart } from "@/context/CartContext";
 
 type CartButtonProps = {
   selectedSize: string;
+  selectedVariantId: string;
+  availableSizes: string[];
   product: {
     name: string;
     slug: string;
@@ -14,6 +16,8 @@ type CartButtonProps = {
 
 export default function CartButton({
   selectedSize,
+  selectedVariantId,
+  availableSizes,
   product,
 }: CartButtonProps) {
   const { addToCart } = useCart();
@@ -24,16 +28,27 @@ export default function CartButton({
       return;
     }
 
+    if (!availableSizes.includes(selectedSize)) {
+      alert("Sorry, this size is out of stock.");
+      return;
+    }
+
+    if (!selectedVariantId) {
+      alert("Unable to identify this product variant. Please try again.");
+      return;
+    }
+
     addToCart({
       name: product.name,
       slug: product.slug,
       price: product.price,
       image: product.image,
       size: selectedSize,
+      variantId: selectedVariantId,
       quantity: 1,
     });
 
-    alert(`Added to cart — Size: ${selectedSize}`);
+    alert(`Added to cart — Size: ${selectedSize}`); 
   }
 
   return (

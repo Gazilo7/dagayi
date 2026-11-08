@@ -362,6 +362,7 @@ footer {
 .size-options {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .size-options button {
@@ -372,9 +373,10 @@ footer {
   background: white;
   color: black;
   cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.size-options button:hover {
+.size-options button:hover:not(:disabled) {
   border-color: var(--black);
 }
 
@@ -382,6 +384,19 @@ footer {
   background: var(--black);
   color: white;
   border-color: var(--black);
+}
+
+.size-options button:disabled {
+  color: #999;
+  background: #f2f2f2;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.size-options button.out-of-stock {
+  pointer-events: none;
 }
 
 /* CART */

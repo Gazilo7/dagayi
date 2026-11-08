@@ -1,0 +1,97 @@
+.checkout-page {
+  max-width: 1200px;
+  margin: 120px auto 80px;
+  padding: 0 40px;
+  color: var(--black);
+}
+
+.checkout-page h1 {
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 50px;
+}
+
+.checkout-page h2 {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 25px;
+}
+
+.checkout-summary {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 30px;
+  margin-bottom: 40px;
+}
+
+.checkout-summary p {
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+.checkout-summary h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 25px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 600px;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.checkout-form input:focus {
+  border-color: var(--black);
+}
+
+.checkout-form button {
+  width: 100%;
+  padding: 18px;
+  margin-top: 15px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.checkout-form button:hover {
+  opacity: 0.75;
+}
+
+.checkout-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkout-error {
+  color: #c00;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .checkout-page {
+    margin: 100px auto 60px;
+    padding: 0 20px;
+  }
+
+  .checkout-page h1 {
+    font-size: 26px;
+    margin-bottom: 35px;
+  }
+}

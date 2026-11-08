@@ -7,11 +7,16 @@ type ProductPageProps = {
   }>;
 };
 
+type AvailableVariant = {
+  id: string;
+  size: string;
+  color: string | null;
+};
+
 export default async function ProductPage({
   params,
 }: ProductPageProps) {
   const { slug } = await params;
-
   const supabase = await createClient();
 
   const { data: product, error } = await supabase
@@ -24,6 +29,7 @@ export default async function ProductPage({
       description,
       image_url,
       product_variants (
+        id,
         size,
         color,
         is_active
@@ -47,6 +53,27 @@ export default async function ProductPage({
       (product.product_variants ?? []).map(
         (variant) => variant.size
       )
+    ),
+  ];
+
+  const { data: availableVariantRows, error: availabilityError } =
+    await supabase.rpc("get_available_variants", {
+      product_uuid: product.id,
+    });
+
+  if (availabilityError) {
+    console.error(
+      "Error fetching available variants:",
+      availabilityError
+    );
+  }
+
+  const availableVariants: AvailableVariant[] =
+    (availableVariantRows ?? []) as AvailableVariant[];
+
+  const availableSizes = [
+    ...new Set(
+      availableVariants.map((variant) => variant.size)
     ),
   ];
 
@@ -85,6 +112,8 @@ export default async function ProductPage({
 
         <ProductActions
           sizes={sizes}
+          availableSizes={availableSizes}
+          variants={availableVariants}
           product={cartProduct}
         />
       </div>
