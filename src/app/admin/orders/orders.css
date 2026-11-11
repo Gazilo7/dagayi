@@ -1,0 +1,124 @@
+.admin-orders {
+  max-width: 1200px;
+  margin: 120px auto 80px;
+  padding: 0 40px;
+  color: var(--black);
+}
+
+.admin-orders header {
+  margin-bottom: 45px;
+}
+
+.admin-orders header h1 {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 12px 0;
+}
+
+.admin-orders header > p:last-child {
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.admin-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.admin-order-card {
+  border: 1px solid var(--border);
+  padding: 25px;
+}
+
+.admin-order-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-order-heading h2 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.admin-order-heading > p {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.admin-order-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.admin-order-customer {
+  padding: 20px 0;
+}
+
+.admin-order-customer p,
+.admin-order-items p {
+  font-size: 13px;
+  margin: 8px 0;
+}
+
+.admin-order-items {
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.admin-order-footer strong {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.admin-order-footer select {
+  min-width: 150px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--black);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .admin-orders {
+    margin: 100px auto 60px;
+    padding: 0 20px;
+  }
+
+  .admin-order-card {
+    padding: 18px;
+  }
+
+  .admin-order-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-order-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-order-footer select {
+    width: 100%;
+  }
+}
